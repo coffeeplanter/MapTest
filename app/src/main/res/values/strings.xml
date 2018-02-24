@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MapTest</string>
+    <string name="title_activity_main">MapTest</string>
+    <string name="low_memory_caution">You have too small memory size! Please, consider running this app on another device.</string>
+    <string name="points_download_completed_notification_title">Map data download completed</string>
+    <string name="points_download_completed_notification_body">Now all points are stored locally on your phone.</string>
+    <string name="main_notification_channel_name" translatable="false">Primary</string>
+</resources>
