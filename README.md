@@ -18,7 +18,5 @@ Features:
 - the user is informed when the download is complete (by notification + toast);
 - the application properly handles device configuration changes (particularly screen rotate).
 
-The application code on Github: 
-
-### Video
+### See video on Youtube 
 [![Android test map application](https://img.youtube.com/vi/UCqQKKrmFAE/0.jpg)](https://www.youtube.com/watch?v=UCqQKKrmFAE)
