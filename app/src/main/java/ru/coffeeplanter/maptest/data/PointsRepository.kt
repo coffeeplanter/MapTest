@@ -26,6 +26,7 @@ class PointsRepository private constructor(private val pointsRemoteDataSource: D
         when {
             areAllPointsLoadedInCache -> {
                 callback.onSuccess(cachedPoints)
+                callback.onComplete()
                 Log.d(TAG, "Data got from memory cache")
             }
             arePointsDownloaded -> getPointsFromLocalDataSource(callback)
@@ -45,6 +46,7 @@ class PointsRepository private constructor(private val pointsRemoteDataSource: D
 
             override fun onComplete() {
                 areAllPointsLoadedInCache = true
+                callback.onComplete()
                 Log.d(TAG, "Data got from local data source")
             }
 

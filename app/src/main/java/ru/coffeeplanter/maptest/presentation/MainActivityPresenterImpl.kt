@@ -15,6 +15,7 @@ class MainActivityPresenterImpl(private var mainActivityView: MainActivityContra
             PointsRepository.getInstance(PointsRemoteDataSource.getInstance(), PointsLocalDataSource.getInstance())
 
     private var isGettingPoints = false
+    private var arePointsStoredLocally = false
 
 
     // ========== MainActivityContract.Presenter ==========
@@ -40,6 +41,7 @@ class MainActivityPresenterImpl(private var mainActivityView: MainActivityContra
     }
 
     override fun getPoints(isActivityRecreated: Boolean, arePointsDownloaded: Boolean) {
+        arePointsStoredLocally = arePointsDownloaded
         if (!isGettingPoints) {
             isGettingPoints = true
             pointsRepository?.getPoints(this, isActivityRecreated, arePointsDownloaded)
@@ -56,10 +58,13 @@ class MainActivityPresenterImpl(private var mainActivityView: MainActivityContra
 
     override fun onComplete() {
         isGettingPoints = false
-        if (mainActivityView != null) {
-            mainActivityView?.makeCompleteActions()
+        if (!arePointsStoredLocally) {
+            if (mainActivityView != null) {
+                mainActivityView?.makeCompleteActions()
+            }
+            NotificationShower.showNotification()
+            arePointsStoredLocally = true
         }
-        NotificationShower.showNotification()
     }
 
     override fun onFailure() {
