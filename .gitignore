@@ -9,3 +9,4 @@ proguard-rules.pro
 .externalNativeBuild
 app/src/androidTest/java
 app/src/test/java
+*.mp4
