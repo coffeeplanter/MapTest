@@ -14,6 +14,8 @@ class MainActivityPresenterImpl(private var mainActivityView: MainActivityContra
     private val pointsRepository: PointsRepository? =
             PointsRepository.getInstance(PointsRemoteDataSource.getInstance(), PointsLocalDataSource.getInstance())
 
+    private var isGettingPoints = false
+
 
     // ========== MainActivityContract.Presenter ==========
 
@@ -38,7 +40,10 @@ class MainActivityPresenterImpl(private var mainActivityView: MainActivityContra
     }
 
     override fun getPoints(isActivityRecreated: Boolean, arePointsDownloaded: Boolean) {
-        pointsRepository?.getPoints(this, isActivityRecreated, arePointsDownloaded)
+        if (!isGettingPoints) {
+            isGettingPoints = true
+            pointsRepository?.getPoints(this, isActivityRecreated, arePointsDownloaded)
+        }
     }
 
     // ========== DataSource.GetDataCallback ==========
@@ -50,13 +55,16 @@ class MainActivityPresenterImpl(private var mainActivityView: MainActivityContra
     }
 
     override fun onComplete() {
+        isGettingPoints = false
         if (mainActivityView != null) {
             mainActivityView?.makeCompleteActions()
         }
         NotificationShower.showNotification()
     }
 
-    override fun onFailure() {}
+    override fun onFailure() {
+        isGettingPoints = false
+    }
 
     companion object {
         @Suppress("unused")

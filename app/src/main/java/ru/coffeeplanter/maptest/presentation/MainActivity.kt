@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, MainActivityContra
         setContentView(R.layout.activity_main)
         isActivityRecreated = savedInstanceState != null
         attachPresenter()
-        presenter = MainActivityPresenterImpl(this)
         presenter?.onActivityCreate(savedInstanceState)
     }
 
