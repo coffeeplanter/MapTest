@@ -1,5 +1,6 @@
 package net.sharewire.googlemapsclustering;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -10,15 +11,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import ru.coffeeplanter.maptest.data.model.Point;
-
-import static net.sharewire.googlemapsclustering.Preconditions.checkArgument;
-import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
 
 /**
  * Groups multiple items on a map into clusters based on the current zoom level.
@@ -27,6 +22,7 @@ import static net.sharewire.googlemapsclustering.Preconditions.checkNotNull;
  *
  * @param <T> the type of an item to be clustered
  */
+@SuppressWarnings("unused")
 public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCameraIdleListener {
 
     private static final int QUAD_TREE_BUCKET_CAPACITY = 4;
@@ -81,8 +77,8 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      * @param googleMap the map instance where markers will be rendered
      */
     public ClusterManager(@NonNull Context context, @NonNull GoogleMap googleMap) {
-        checkNotNull(context);
-        mGoogleMap = checkNotNull(googleMap);
+        Preconditions.INSTANCE.checkNotNull(context);
+        mGoogleMap = Preconditions.INSTANCE.checkNotNull(googleMap);
         mRenderer = new ClusterRenderer<>(context, googleMap);
         mQuadTree = new QuadTree<>(QUAD_TREE_BUCKET_CAPACITY);
     }
@@ -93,7 +89,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      * @param iconGenerator the custom icon generator that's used for generating marker icons
      */
     public void setIconGenerator(@NonNull IconGenerator<T> iconGenerator) {
-        checkNotNull(iconGenerator);
+        Preconditions.INSTANCE.checkNotNull(iconGenerator);
         mRenderer.setIconGenerator(iconGenerator);
     }
 
@@ -103,7 +99,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      * @param iconGenerator the custom icon generator that's used for generating cluster icons
      */
     public void setClusterIconGenerator(@NonNull IconGenerator<T> iconGenerator) {
-        checkNotNull(iconGenerator);
+        Preconditions.INSTANCE.checkNotNull(iconGenerator);
         mRenderer.setClusterIconGenerator(iconGenerator);
     }
 
@@ -123,7 +119,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      * @param clusterItems the items to be clustered
      */
     public void setItems(@NonNull List<T> clusterItems) {
-        checkNotNull(clusterItems);
+        Preconditions.INSTANCE.checkNotNull(clusterItems);
         buildQuadTree(clusterItems);
     }
 
@@ -132,7 +128,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
      * is less than this value, display individual markers.
      */
     public void setMinClusterSize(int minClusterSize) {
-        checkArgument(minClusterSize > 0);
+        Preconditions.INSTANCE.checkArgument(minClusterSize > 0);
         mMinClusterSize = minClusterSize;
     }
 
@@ -224,6 +220,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         return clusters;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class QuadTreeTask extends AsyncTask<Void, Void, Void> {
 
         private final List<T> mClusterItems;
@@ -248,6 +245,7 @@ public class ClusterManager<T extends ClusterItem> implements GoogleMap.OnCamera
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class ClusterTask extends AsyncTask<Void, Void, List<Cluster<T>>> {
 
         private final LatLngBounds mLatLngBounds;

@@ -27,20 +27,16 @@ open class Point : RealmObject, ClusterItem {
 
     // ========== ClusterItem ==========
 
-    override fun getLatitude(): Double {
-        return lat.toDouble()
-    }
+    override val latitude: Double
+        get() = lat.toDouble()
 
-    override fun getLongitude(): Double {
-        return lng.toDouble()
-    }
+    override val longitude: Double
+        get() = lng.toDouble()
 
-    override fun getTitle(): String? {
-        return name
-    }
+    override val title: String?
+        get() = name
 
-    override fun getSnippet(): String? {
-        return null
-    }
+    override val snippet: String?
+        get() = null
 
 }
