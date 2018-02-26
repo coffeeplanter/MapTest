@@ -1,6 +1,6 @@
 package net.sharewire.googlemapsclustering
 
-import java.util.ArrayList
+import java.util.*
 
 internal class QuadTreeNode<T : QuadTreePoint>(north: Double, west: Double, south: Double, east: Double, private val bucketSize: Int) {
 
